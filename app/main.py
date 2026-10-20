@@ -24,6 +24,17 @@ def _startup():
     print(f"Agents: {describe_agents()}")
 
 
+@app.get("/")
+def root():
+    return {
+        "service": "WhatsApp agent bridge",
+        "status": "running",
+        "dry_run": config.DRY_RUN,
+        "agents": describe_agents(),
+        "endpoints": {"health": "/health", "meta_webhook": "/webhook"},
+    }
+
+
 @app.get("/health")
 def health():
     return {"ok": True, "dry_run": config.DRY_RUN, "agents": describe_agents()}
