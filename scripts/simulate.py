@@ -53,7 +53,13 @@ def send(text):
     headers = {"Content-Type": "application/json"}
     if SECRET:
         headers["X-Hub-Signature-256"] = "sha256=" + hmac.new(SECRET.encode(), body, hashlib.sha256).hexdigest()
-    r = httpx.post(URL, content=body, headers=headers)
+    try:
+        r = httpx.post(URL, content=body, headers=headers, timeout=10)
+    except httpx.ConnectError:
+        print(f"\n  Server is not running at {URL}.")
+        print("  Start it in another terminal:  uvicorn app.main:app --host 0.0.0.0 --port 8000")
+        print("  Or run everything in one go:   bash scripts/demo.sh\n")
+        return
     print(f"vendor> {text}   [{r.status_code}]")
     time.sleep(0.3)
 
@@ -64,5 +70,10 @@ if __name__ == "__main__":
             send(msg)
     else:
         print(f"Chatting as {PHONE}. Replies appear in the server terminal. Ctrl+C to quit.")
-        while True:
-            send(input("vendor> "))
+        try:
+            while True:
+                msg = input("vendor> ").strip()
+                if msg:
+                    send(msg)
+        except (KeyboardInterrupt, EOFError):
+            print("\nbye")

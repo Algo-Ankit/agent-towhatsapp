@@ -115,7 +115,13 @@ Open this repo > **Code > Codespaces > Create codespace** (or open the existing 
 pip install -r requirements.txt && cp -n .env.example .env
 ```
 
-### Start and chat
+### Quickest: one command
+```bash
+bash scripts/demo.sh
+```
+Starts the bridge and opens a vendor chat in the same terminal; agent replies print right under your messages. Ctrl+C quits both.
+
+### Or run server and chat separately
 ```bash
 # terminal 1: the bridge
 uvicorn app.main:app --port 8000
