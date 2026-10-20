@@ -38,7 +38,7 @@ def extract_messages(payload: dict):
 
 async def send_text(to: str, body: str):
     if config.DRY_RUN:
-        print(f"\n[DRY_RUN reply -> {to}]\n{body}\n")
+        print(f"\nagent -> +{to}  (DRY_RUN: not actually sent)\n{body}\n")
         return
     url = f"https://graph.facebook.com/{config.GRAPH_API_VERSION}/{config.WA_PHONE_NUMBER_ID}/messages"
     async with httpx.AsyncClient(timeout=15) as client:

@@ -48,7 +48,7 @@ def payload(text):
     }
 
 
-def send(text):
+def send(text, echo=True):
     body = json.dumps(payload(text)).encode()
     headers = {"Content-Type": "application/json"}
     if SECRET:
@@ -60,8 +60,11 @@ def send(text):
         print("  Start it in another terminal:  uvicorn app.main:app --host 0.0.0.0 --port 8000")
         print("  Or run everything in one go:   bash scripts/demo.sh\n")
         return
-    print(f"vendor> {text}   [{r.status_code}]")
-    time.sleep(0.3)
+    if echo:
+        print(f"vendor> {text}")
+    if r.status_code != 200:
+        print(f"  (server answered {r.status_code}: {r.text})")
+    time.sleep(0.6)  # give the agent time to print its reply before the next prompt
 
 
 if __name__ == "__main__":
@@ -69,11 +72,13 @@ if __name__ == "__main__":
         for msg in sys.argv[1:]:
             send(msg)
     else:
-        print(f"Chatting as {PHONE}. Replies appear in the server terminal. Ctrl+C to quit.")
+        print(f"You are a vendor messaging from WhatsApp number +{PHONE} (fake, for testing).")
+        print("Agent replies show as 'agent ->'. They are printed here instead of sent, until Meta is connected.")
+        print("Ctrl+C to quit.\n")
         try:
             while True:
                 msg = input("vendor> ").strip()
                 if msg:
-                    send(msg)
+                    send(msg, echo=False)
         except (KeyboardInterrupt, EOFError):
             print("\nbye")
