@@ -192,6 +192,13 @@ def confirm(vendor: dict, action: str, payload: dict) -> str: ...
 
 ## 6. Connect real WhatsApp
 
+**Shortcut:** after steps 1 to 3 below (Meta app, your phone in the "To" list, copy the IDs), run
+```bash
+bash scripts/go_live.sh
+```
+It asks for the Phone number ID, access token and app secret, checks them with Meta, writes `.env`, makes port 8000 public, starts the server, and prints the exact Callback URL and Verify token to paste in step 6. The manual steps are below.
+
+
 1. **Meta app**: developers.facebook.com > Create app > Business type > add the **WhatsApp** product.
 2. **API Setup** page: copy the temporary access token and **Phone number ID** into `.env`. Add your own phone under "To" as a test recipient (the free test number allows up to 5).
 3. **App secret**: App settings > Basic > App secret, into `.env` as `WA_APP_SECRET`.
