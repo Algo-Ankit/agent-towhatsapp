@@ -3,6 +3,9 @@
 # You need 3 values from developers.facebook.com > your app > WhatsApp > API Setup:
 #   Phone number ID, Temporary access token, and App secret (App settings > Basic).
 cd "$(dirname "$0")/.." || exit 1
+
+# Use the project's .venv if it exists (keeps your global Python clean)
+if [ -f .venv/bin/activate ]; then . .venv/bin/activate; elif [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; fi
 [ -f .env ] || cp .env.example .env
 
 set_env() {  # set_env KEY VALUE  (replace or append in .env)

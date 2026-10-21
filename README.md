@@ -109,6 +109,24 @@ Important: we do **not** connect agents to each vendor's personal WhatsApp. We o
 
 ## 4. Run it now (no Meta account needed)
 
+### On your own machine (VS Code), in an isolated environment
+Creates `.venv` inside the project so your global Python is untouched.
+```bash
+# Mac / Linux / Git Bash
+bash scripts/setup.sh
+source .venv/bin/activate
+bash scripts/demo.sh
+```
+```powershell
+# Windows PowerShell
+powershell -ExecutionPolicy Bypass -File scripts\setup.ps1
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --port 8000          # terminal 1
+python scripts\simulate.py                # terminal 2 (activate .venv there too)
+```
+In VS Code, pick the interpreter once: Ctrl+Shift+P > "Python: Select Interpreter" > the one under `.venv`. New terminals then activate it automatically.
+
+
 ### In GitHub Codespaces
 Open this repo > **Code > Codespaces > Create codespace** (or open the existing one and run `git pull`). Dependencies and `.env` are set up automatically by `.devcontainer`. If you opened an older codespace, run:
 ```bash

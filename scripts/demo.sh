@@ -2,6 +2,9 @@
 # One command demo: starts the bridge in the background, then opens a vendor chat.
 # Agent replies print right below your messages. Ctrl+C to quit (stops the server too).
 cd "$(dirname "$0")/.." || exit 1
+
+# Use the project's .venv if it exists (keeps your global Python clean)
+if [ -f .venv/bin/activate ]; then . .venv/bin/activate; elif [ -f .venv/Scripts/activate ]; then . .venv/Scripts/activate; fi
 [ -f .env ] || cp .env.example .env
 
 PORT=${PORT:-8000}
